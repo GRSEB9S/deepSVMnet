@@ -4,4 +4,4 @@ For more check my post here https://chombabupe.quora.com/Deep-Support-Vector-Mac
 You need TensorFlow to access the MNIST dataset or you can provide the MNIST loader yourself.
 The code is built from ground up with Python and Numpy.
 Run the svm_net_xor.py for testing the algorithm on the XOR problem
-Run mnist_recognizer.py to run train on the MNIST dataset
+Run mnist_recognizer.py to train on the MNIST dataset
