@@ -151,7 +151,7 @@ class DenseRectifiedLinearSVMLayer(Layer):
            if x <= 0.0:
                deltas_buffer[i] = 0.0
     
-        return competititve_credit_assign(deltas)
+        return competitive_credit_assign(deltas)
     
     def project(self, data_point):
 
@@ -335,7 +335,7 @@ class ConvolutionalRectifiedLinearSVMLayer(Layer):
            if x <= 0.0:
                deltas_buffer[i] = 0.0
 
-        return competititve_credit_assign(deltas, self.padding)
+        return competitive_credit_assign(deltas, self.padding)
 
 #############################################################################################################
 
@@ -438,13 +438,13 @@ class PoolingLayer(Layer):
             sign_signal_slice = sign_signal_buffer[d]
             indices_slice = indices[d]
             
-            for i in range(size):
+            for k in range(size):
                 
-                sign_signal = sign_signal_slice[i]
+                sign_signal = sign_signal_slice[k]
 
-                if sign_signal != 0 and output_slice[i] * sign_signal < 1.0:
+                if sign_signal != 0 and output_slice[k] * sign_signal < 1.0:
 
-                    i,j = indices_slice[i]
+                    i,j = indices_slice[k]
 
                     if i >= 0 and j >= 0:
                         forward_sign_signal[d][i][j] = sign_signal
@@ -525,9 +525,9 @@ def compute_output_dimension(input_shape, kernel_shape, stride, padding):
     return height_out, width_out
 
 #competitive credit assignment
-def competititve_credit_assign(padded_deltas, trimming = 0):
+def competitive_credit_assign(deltas_padded, trimming = 0):
 
-    deltas = padded_deltas[:,trimming:deltas_padded.shape[1] - trimming,trimming:deltas_padded.shape[2] - trimming] #remove padding
+    deltas = deltas_padded[:,trimming:deltas_padded.shape[1] - trimming,trimming:deltas_padded.shape[2] - trimming] #remove padding
 
     depth, height, width = deltas.shape
    
